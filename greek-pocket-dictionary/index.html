@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Pocket Greek–Vietnamese Dictionary</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Noto Serif', serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background-color: navy;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 25px;
+            font-weight: normal;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+        }
+        
+        .sidebar {
+            width: 150px;
+            background-color: #f0f0f0;
+            padding: 10px;
+        }
+        
+        .alphabet-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .alphabet-btn {
+            background-color: navy;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-family: 'Noto Serif', serif;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+        
+        .alphabet-btn.active {
+            background-color: red;
+            color: navy;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .dictionary-prompt {
+            text-align: center;
+            font-size: 28px;
+            margin: 40px 0;
+            font-weight: bold;
+        }
+        
+        .dictionary-table {
+            width: 100%;
+            border-collapse: collapse;
+            display: none;
+            font-size: 25px;
+        }
+        
+        .dictionary-table th {
+            background-color: navy;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .dictionary-table tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+        
+        .dictionary-table tr:nth-child(even) {
+            background-color: #e9e9e9;
+        }
+        
+        .dictionary-table td {
+            padding: 10px;
+        }
+        
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 10px 20px;
+            }
+            
+            .alphabet-buttons {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .dictionary-table th, 
+            .dictionary-table td {
+                padding: 8px 4px;
+                font-size: 14px;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .alphabet-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .dictionary-table {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Original header -->
+<div class="header">
+    <div class="main-title">A POCKET GREEK–VIETNAMESE DICTIONARY</div>
+    <div class="subtitle">(coded by THUYEN PHAN, MDiv., ThM., PhD.)</div>
+</div>    
+    <div class="content-wrapper">
+        <div class="sidebar">
+            <div class="alphabet-buttons">
+                <button class="alphabet-btn" data-letter="Α">Α</button>
+                <button class="alphabet-btn" data-letter="Β">Β</button>
+                <button class="alphabet-btn" data-letter="Γ">Γ</button>
+                <button class="alphabet-btn" data-letter="Δ">Δ</button>
+                <button class="alphabet-btn" data-letter="Ε">Ε</button>
+                <button class="alphabet-btn" data-letter="Ζ">Ζ</button>
+                <button class="alphabet-btn" data-letter="Η">Η</button>
+                <button class="alphabet-btn" data-letter="Θ">Θ</button>
+                <button class="alphabet-btn" data-letter="Ι">Ι</button>
+                <button class="alphabet-btn" data-letter="Κ">Κ</button>
+                <button class="alphabet-btn" data-letter="Λ">Λ</button>
+                <button class="alphabet-btn" data-letter="Μ">Μ</button>
+                <button class="alphabet-btn" data-letter="Ν">Ν</button>
+                <button class="alphabet-btn" data-letter="Ξ">Ξ</button>
+                <button class="alphabet-btn" data-letter="Ο">Ο</button>
+                <button class="alphabet-btn" data-letter="Π">Π</button>
+                <button class="alphabet-btn" data-letter="Ρ">Ρ</button>
+                <button class="alphabet-btn" data-letter="Σ">Σ</button>
+                <button class="alphabet-btn" data-letter="Τ">Τ</button>
+                <button class="alphabet-btn" data-letter="Υ">Υ</button>
+                <button class="alphabet-btn" data-letter="Φ">Φ</button>
+                <button class="alphabet-btn" data-letter="Χ">Χ</button>
+                <button class="alphabet-btn" data-letter="Ψ">Ψ</button>
+                <button class="alphabet-btn" data-letter="Ω">Ω</button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="dictionary-prompt">Please Choose an Alphabet to Begin</div>
+            
+            <table class="dictionary-table">
+                <colgroup>
+                    <col style="width: 15%;">  <!-- Greek Numbers column -->
+                    <col style="width: 15%;">  <!-- Occurrences column -->
+                    <col style="width: 20%;">  <!-- Greek Word column -->
+                    <col style="width: 50%;">  <!-- Vietnamese column -->
+                </colgroup>    
+                <thead>
+                    <tr>
+                        <th>Greek Numbers</th>
+                        <th>Occurrences</th>
+                        <th>Greek Word</th>
+                        <th>Vietnamese</th>
+                    </tr>
+                </thead>
+                <tbody id="dictionary-entries">
+                    <!-- Dictionary entries will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        // Dictionary data structure - organized by first letter
+        const dictionaryData = {
+            'Α': [
+                {number: '1', occurrences: 0, word: 'α', vietnamese: 'chữ cái đầu tiên trong tiếng Hy-lạp'},
+                {number: '2', occurrences: 5, word: 'Ἀαρών', vietnamese: 'A-rôn'},
+                {number: '3', occurrences: 1, word: 'Ἀβαδδών', vietnamese: 'sự hủy diệt'},
+                {number: '4', occurrences: 1, word: 'ἀβαρής', vietnamese: 'không phiền toái'},
+                {number: '5', occurrences: 3, word: 'ἀββά', vietnamese: 'cha'},
+                {number: '6', occurrences: 4, word: 'Ἅβελ', vietnamese: 'A-bên'},
+                {number: '7', occurrences: 3, word: 'Ἀβιά', vietnamese: 'A-bi-gia'},
+                {number: '8', occurrences: 1, word: 'Ἀβιαθάρ', vietnamese: 'A-bia-tha'},
+                {number: '9', occurrences: 1, word: 'Ἀβιληνή', vietnamese: 'A-by-len'},
+                {number: '10', occurrences: 2, word: 'Ἀβιούδ', vietnamese: 'A-bi-hút'},
+                {number: '11', occurrences: 73, word: 'Ἀβραάμ', vietnamese: 'Áp-ra-ham'},
+                {number: '12', occurrences: 9, word: 'ἄβυσσος', vietnamese: 'vực sâu'},
+                {number: '13', occurrences: 2, word: 'Ἅγαβος', vietnamese: 'A-ga-bút'},
+                {number: '14', occurrences: 2, word: 'ἀγαθοεργέω', vietnamese: 'làm điều lành'},
+                {number: '15', occurrences: 0, word: 'ἀγαθοεργός', vietnamese: 'người làm điều lành'},
+                {number: '16', occurrences: 9, word: 'ἀγαθοποιέω', vietnamese: 'làm điều lành'},
+                {number: '17', occurrences: 1, word: 'ἀγαθοποιΐα', vietnamese: 'làm điều lành'},
+                {number: '18', occurrences: 1, word: 'ἀγαθοποιός', vietnamese: 'người làm điều lành'},
+                {number: '19', occurrences: 102, word: 'ἀγαθός', vietnamese: 'tốt lành'},
+                {number: '20', occurrences: 4, word: 'ἀγαθωσύνη', vietnamese: 'sự tốt lành'},
+                {number: '21', occurrences: 5, word: 'ἀγαλλίασις', vietnamese: 'sự vui mừng lớn'},
+                {number: '22', occurrences: 11, word: 'ἀγαλλιάω', vietnamese: 'được ngập tràn niềm vui'},
+                {number: '23', occurrences: 4, word: 'ἄγαμος', vietnamese: 'chưa kết hôn (nam hoặc nữ)'},
+                {number: '24', occurrences: 7, word: 'ἀγανακτέω', vietnamese: 'phẫn nộ'},
+                {number: '25', occurrences: 1, word: 'ἀγανάκτησις', vietnamese: 'sự phẫn nộ'},
+                {number: '26', occurrences: 143, word: 'ἀγαπάω', vietnamese: 'yêu '},
+                {number: '27', occurrences: 116, word: 'ἀγάπη', vietnamese: 'yêu '},
+                {number: '28', occurrences: 61, word: 'ἀγαπητός', vietnamese: 'người yêu dấu'},
+                {number: '29', occurrences: 2, word: 'Ἁγάρ', vietnamese: 'A-ga'},
+                {number: '30', occurrences: 3, word: 'ἀγγαρεύω', vietnamese: 'ép buộc'},
+                                
+            ],
+            'Β': [],
+            'Γ': [],
+            'Δ': [],
+            'Ε': [],
+            'Ζ': [],
+            'Η': [],
+            'Θ': [],
+            'Ι': [],
+            'Κ': [],
+            'Λ': [],
+            'Μ': [],
+            'Ν': [],
+            'Ξ': [],
+            'Ο': [],
+            'Π': [],
+            'Ρ': [],
+            'Σ': [],
+            'Τ': [],
+            'Υ': [],
+            'Φ': [],
+            'Χ': [],
+            'Ψ': [],
+            'Ω': []
+        };
+        
+        // Function to display dictionary entries for a selected letter
+        function displayEntries(letter) {
+            const entriesContainer = document.getElementById('dictionary-entries');
+            const entries = dictionaryData[letter];
+            
+            // Clear existing entries
+            entriesContainer.innerHTML = '';
+            
+            // Add new entries
+            entries.forEach(entry => {
+                const row = document.createElement('tr');
+                
+                const numberCell = document.createElement('td');
+                numberCell.textContent = entry.number;
+                row.appendChild(numberCell);
+                
+                const occurrencesCell = document.createElement('td');
+                occurrencesCell.textContent = entry.occurrences;
+                row.appendChild(occurrencesCell);
+                
+                const wordCell = document.createElement('td');
+                wordCell.textContent = entry.word;
+                row.appendChild(wordCell);
+                
+                const vietnameseCell = document.createElement('td');
+                vietnameseCell.textContent = entry.vietnamese;
+                row.appendChild(vietnameseCell);
+                
+                entriesContainer.appendChild(row);
+            });
+            
+            // Show the table and hide the prompt
+            document.querySelector('.dictionary-table').style.display = 'table';
+            document.querySelector('.dictionary-prompt').style.display = 'none';
+        }
+        
+        // Set up event listeners for alphabet buttons
+        document.querySelectorAll('.alphabet-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.alphabet-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Display entries for the selected letter
+                const letter = this.getAttribute('data-letter');
+                displayEntries(letter);
+            });
+        });
+    </script>
+</body>
+</html>
